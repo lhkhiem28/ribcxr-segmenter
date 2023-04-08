@@ -12,7 +12,7 @@ train_loaders = {
             data_dir = "../../datasets/RibCXR-Seg/train/", 
             augment = True, 
         ), 
-        num_workers = 8, batch_size = 16, 
+        num_workers = 12, batch_size = 16, 
         shuffle = True, 
     ), 
     "val":torch.utils.data.DataLoader(
@@ -20,7 +20,7 @@ train_loaders = {
             data_dir = "../../datasets/RibCXR-Seg/val/", 
             augment = False, 
         ), 
-        num_workers = 8, batch_size = 16, 
+        num_workers = 12, batch_size = 16, 
         shuffle = False, 
     ), 
 }

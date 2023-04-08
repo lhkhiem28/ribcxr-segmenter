@@ -10,7 +10,7 @@ test_loader = torch.utils.data.DataLoader(
     ImageDataset(
         data_dir = "../../datasets/RibCXR-Seg/test/", 
     ), 
-    num_workers = 8, batch_size = 16, 
+    num_workers = 12, batch_size = 16, 
 )
 model = torch.load(
     "../../ckps/RibCXR-Seg/efficient_unet/best.ptl", 
