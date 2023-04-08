@@ -21,12 +21,15 @@ def train_fn(
             images, masks = images.to(device), masks.to(device)
 
             logits = model(images)
-            loss, metric,  = monai.losses.DiceLoss()(logits, masks), monai.metrics.DiceMetric()(logits > 0.5, masks), 
+            loss, metric,  = catalyst.contrib.losses.dice.DiceLoss()(logits, masks), catalyst.metrics.functional.dice(
+                logits, masks
+                , threshold = 0.5, mode = "macro"
+            ), 
 
             loss.backward()
             optimizer.step(), optimizer.zero_grad()
 
-            running_loss, running_metric,  = running_loss + loss.item()*images.size(0), running_metric + torch.mean(metric).item()*images.size(0), 
+            running_loss, running_metric,  = running_loss + loss.item()*images.size(0), running_metric + metric.item()*images.size(0), 
         train_loss, train_metric,  = running_loss/len(train_loaders["train"].dataset), running_metric/len(train_loaders["train"].dataset), 
         wandb.log({"train_loss":train_loss, "train_metric":train_metric, }, step = epoch)
         print("{:<8} - loss:{:.4f}, metric:{:.4f}".format(
@@ -41,9 +44,12 @@ def train_fn(
                 images, masks = images.to(device), masks.to(device)
 
                 logits = model(images)
-                loss, metric,  = monai.losses.DiceLoss()(logits, masks), monai.metrics.DiceMetric()(logits > 0.5, masks), 
+                loss, metric,  = catalyst.contrib.losses.dice.DiceLoss()(logits, masks), catalyst.metrics.functional.dice(
+                    logits, masks
+                    , threshold = 0.5, mode = "macro"
+                ), 
 
-                running_loss, running_metric,  = running_loss + loss.item()*images.size(0), running_metric + torch.mean(metric).item()*images.size(0), 
+                running_loss, running_metric,  = running_loss + loss.item()*images.size(0), running_metric + metric.item()*images.size(0), 
         val_loss, val_metric,  = running_loss/len(train_loaders["val"].dataset), running_metric/len(train_loaders["val"].dataset), 
         wandb.log({"val_loss":val_loss, "val_metric":val_metric, }, step = epoch)
         print("{:<8} - loss:{:.4f}, metric:{:.4f}".format(
