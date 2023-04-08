@@ -83,7 +83,7 @@ def test_fn(
             logits = model(images)
             loss, metric,  = catalyst.contrib.losses.dice.DiceLoss()(logits, masks), catalyst.metrics.functional.dice(
                 logits, masks
-                , threshold = 0.5, mode = "macro"
+                , threshold = 0.75, mode = "macro"
             ), 
 
             running_loss, running_metric,  = running_loss + loss.item()*images.size(0), running_metric + metric.item()*images.size(0), 
