@@ -11,8 +11,9 @@ class ImageDataset(torch.utils.data.Dataset):
         if augment:
             self.transform = A.Compose(
                 [
-                    A.HorizontalFlip(p = 0.5), 
-                    A.ColorJitter(p = 0.5), 
+                    A.HorizontalFlip(), A.ShiftScaleRotate(rotate_limit = 15), 
+                    A.ColorJitter(), 
+                    A.CLAHE(), 
                     A.Resize(
                         height = image_size, width = image_size, 
                     ), 

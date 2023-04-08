@@ -41,16 +41,12 @@ class Seg():
     def seg_predict(self, 
         image_file, 
     ):
-        image = cv2.imread(image_file)
-        image = cv2.cvtColor(
-            image, 
-            code = cv2.COLOR_BGR2RGB, 
-        )
+        image = Image.open(image_file).convert("RGB")
         image = np.asarray(image, dtype = np.uint8)
         image = A.Resize(
             height = 512, width = 512, 
         )(image = image)["image"]
-        pred = self.model(self.transform(image = image)["image"].unsqueeze(0)) > 0.75
+        pred = self.model(self.transform(image = image)["image"].unsqueeze(0)) > 0.5
         pred = pred.int().squeeze(0).permute(1, 2, 0).numpy()
 
         from detectron2.utils.visualizer import Visualizer, ColorMode

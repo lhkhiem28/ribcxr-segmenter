@@ -5,7 +5,7 @@ pl.seed_everything(23)
 
 import argparse
 import glob
-import cv2, numpy as np
+import PIL.Image as Image, numpy as np
 import torch
 import torch.nn as nn, torch.optim as optim
 import torch.nn.functional as F
