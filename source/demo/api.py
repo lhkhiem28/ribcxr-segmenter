@@ -14,7 +14,7 @@ class Seg():
         self.model = torch.load(
             ckp_dir, 
             map_location = "cpu", 
-        )
+        ).eval()
         self.assigned_colors = {
             "R1" :np.random.rand(3), 
             "R2" :np.random.rand(3), 
