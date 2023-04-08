@@ -65,3 +65,35 @@ def train_fn(
         "train_loss":train_loss, "train_metric":train_metric, 
         "val_loss":val_loss, "val_metric":val_metric, 
     }
+
+def test_fn(
+    test_loader, 
+    model, 
+    device = torch.device("cpu"), 
+):
+    print("\nStart Testing ...\n" + " = "*16)
+    model = model.to(device)
+
+    with torch.no_grad():
+        model.eval()
+        running_loss, running_metric,  = 0.0, 0.0, 
+        for images, masks in tqdm.tqdm(test_loader):
+            images, masks = images.to(device), masks.to(device)
+
+            logits = model(images)
+            loss, metric,  = catalyst.contrib.losses.dice.DiceLoss()(logits, masks), catalyst.metrics.functional.dice(
+                logits, masks
+                , threshold = 0.5, mode = "macro"
+            ), 
+
+            running_loss, running_metric,  = running_loss + loss.item()*images.size(0), running_metric + metric.item()*images.size(0), 
+    test_loss, test_metric,  = running_loss/len(test_loader.dataset), running_metric/len(test_loader.dataset), 
+    print("{:<8} - loss:{:.4f}, metric:{:.4f}".format(
+        "test", 
+        test_loss, test_metric, 
+    ))
+
+    print("\nFinish Testing ...\n" + " = "*16)
+    return {
+        "test_loss":test_loss, "test_metric":test_metric, 
+    }
