@@ -13,7 +13,7 @@ test_loader = torch.utils.data.DataLoader(
     num_workers = 12, batch_size = 16, 
 )
 model = torch.load(
-    "../../ckps/RibCXR-Seg/efficient_unet/best.ptl", 
+    "../../ckps/RibCXR-Seg/efficientunet/best.ptl", 
     map_location = "cpu", 
 )
 test_fn(

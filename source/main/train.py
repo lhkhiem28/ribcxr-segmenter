@@ -34,9 +34,9 @@ optimizer = torch.optim.Adam(
 
 wandb.init(
     entity = "khiemlhfx", project = "RibCXR-Seg", 
-    name = "efficient_unet", 
+    name = "efficientunet", 
 )
-save_ckp_dir = "../../ckps/RibCXR-Seg/efficient_unet"
+save_ckp_dir = "../../ckps/RibCXR-Seg/efficientunet"
 if not os.path.exists(save_ckp_dir):
     os.makedirs(save_ckp_dir)
 train_fn(
