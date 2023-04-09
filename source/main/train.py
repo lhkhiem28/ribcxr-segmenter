@@ -25,7 +25,7 @@ train_loaders = {
     ), 
 }
 model = smp.Unet(
-    encoder_name = "efficientnet-b0", encoder_weights = "imagenet", 
+    encoder_name = "efficientnet-b1", encoder_weights = "imagenet", 
     classes = 20, activation = "sigmoid", 
 )
 optimizer = torch.optim.Adam(
